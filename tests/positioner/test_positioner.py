@@ -4,7 +4,7 @@ import numpy as np
 from parameterized import parameterized
 
 from bok_drone_onboard_system.positioner import Vector, vector_from_quaternion
-from bok_drone_onboard_system.tests.positioner.test_resources import load_quaternions
+from tests.positioner.test_resources import load_quaternions
 
 
 class PositionerTest(TestCase):

@@ -22,7 +22,6 @@ classifiers = [
 ]
 dependencies = [
     "adafruit-circuitpython-bno08x==1.2.10",
-    "configparser==7.2.0",
     "numpy==2.3.1",
     "pandas==2.3.1",
     "parameterized==0.9.0",
@@ -36,7 +35,8 @@ Homepage = "https://github.com/terra-submersa/bok-drone-onboard-system"
 bno08x-acquire = "bok_drone_onboard_system.bno08x_acquire:main"
 
 [tool.setuptools.packages.find]
-include = ["bok_drone_onboard_system"]
+where = ["."]
+include = ["bok_drone_onboard_system*"]
 
 [tool.bumpver]
 current_version = "0.1.6"
