@@ -88,6 +88,7 @@ def append_measure(quaternion: tuple, conn: Connection):
 
 
 def main():
+    logging.basicConfig(level=logging.INFO)
     parser = argparse.ArgumentParser(description="acquire data from BNO08x and store in sqllite DB.")
 
     parser.add_argument(
