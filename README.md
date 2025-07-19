@@ -4,6 +4,16 @@ version=0.1.3
 
 ### Pypi package build and deploy
     # pip install build
+
+    # commit changes
+    bumpver update --patch # or --minor --major
+
+    rm -rf dist/
     python -m build
 
     
+    twine upload dist/*
+
+#### Upgrade deployment on Raspbery PI
+
+    pip install --upgrade bok-drone-onboard-system

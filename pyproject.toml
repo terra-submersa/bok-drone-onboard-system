@@ -32,6 +32,9 @@ dependencies = [
 [project.urls]
 Homepage = "https://github.com/terra-submersa/bok-drone-onboard-system"
 
+[project.scripts]
+bno08x-acquire = "bok_drone_onboard_system.bno08x_acquire:main"
+
 [tool.setuptools.packages.find]
 include = ["bok_drone_onboard_system"]
 
