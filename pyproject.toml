@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bok-drone-onboard-system"
+version = "0.1.0"
+description = "A Python package for drone onboard sensor acquisition"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {file = "LICENSE"}
+authors = [
+    {name = "Alexandre MAselot", email = "alexandre.masselot@gmail.com"}
+]
+keywords = ["drone", "sensor", "bno08x"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent"
+]
+dependencies = [
+    "adafruit-circuitpython-bno08x==1.2.10",
+    "configparser==7.2.0",
+    "numpy==2.3.1",
+    "pandas==2.3.1",
+    "parameterized==0.9.0",
+    "scipy==1.16.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/yourusername/bok-drone-onboard-system"
