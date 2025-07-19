@@ -8,11 +8,10 @@ version=0.1.5
     # commit changes
     bumpver update --patch # or --minor --major
 
-    rm -rf dist/
     python -m build
 
-    
-    twine upload dist/*
+    # Only upload the latest version
+    twine upload $(ls  dist/* | grep .tar.gz | sed s/.tar.gz// | tail -1)*
 
 #### Upgrade deployment on Raspbery PI
 
