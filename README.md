@@ -1,5 +1,5 @@
 # BOK Drone Onboard System
-version=0.1.9
+version=0.1.10
 
 
 ### Pypi package build and deploy
