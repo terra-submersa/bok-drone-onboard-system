@@ -1,5 +1,6 @@
 adafruit-circuitpython-bno08x==1.2.10
 numpy==2.3.1
+lgpio
 pandas==2.3.1
 parameterized==0.9.0
 scipy==1.16.0
