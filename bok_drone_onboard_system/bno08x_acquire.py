@@ -6,7 +6,7 @@ import time
 from datetime import datetime, timezone
 from sqlite3 import Connection
 
-from positioner import Vector, vector_from_quaternion
+from bok_drone_onboard_system.positioner import Vector, vector_from_quaternion
 
 logger = logging.getLogger(__name__)
 
