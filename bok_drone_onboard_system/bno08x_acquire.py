@@ -87,7 +87,7 @@ def append_measure(quaternion: tuple, conn: Connection):
     conn.commit()
 
 
-if __name__ == "__main__":
+def main():
     parser = argparse.ArgumentParser(description="acquire data from BNO08x and store in sqllite DB.")
 
     parser.add_argument(
@@ -146,3 +146,6 @@ if __name__ == "__main__":
             logger.error(f"Error: {e}")
             time.sleep(3)
             bno = None
+
+if __name__ == "__main__":
+    main()
