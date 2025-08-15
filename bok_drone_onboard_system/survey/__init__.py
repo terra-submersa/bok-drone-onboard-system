@@ -1,6 +1,6 @@
 from serial import Serial
 
-from bok_survey.emlid_reader import read_from_emlid, find_emlid_device
+from bok_drone_onboard_system.survey.emlid_reader import read_from_emlid, find_emlid_device
 
 if __name__ == "__main__":
     # Find the EMLID device

@@ -7,7 +7,7 @@ from sqlite3 import Connection
 from serial import Serial
 
 from bok_drone_onboard_system.bno import load_bno
-from bok_survey.emlid_reader import GPSPoint, find_emlid_device, read_from_emlid
+from bok_drone_onboard_system.survey.emlid_reader import GPSPoint, find_emlid_device, read_from_emlid
 
 logger = logging.getLogger(__name__)
 

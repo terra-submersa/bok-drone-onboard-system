@@ -11,7 +11,8 @@ The `find_emlid_device()` function in the `bok_survey` module automatically dete
 To test on macOS, run:
 
 ```python
-from bok_survey import find_emlid_device
+from bok_drone_onboard_system.survey import find_emlid_device
+
 print(f'EMLID device found at: {find_emlid_device()}')
 ```
 
@@ -23,7 +24,8 @@ To test on Raspberry Pi, follow these steps:
 2. Run the following command:
 
 ```python
-from bok_survey import find_emlid_device
+from bok_drone_onboard_system.survey import find_emlid_device
+
 print(f'EMLID device found at: {find_emlid_device()}')
 ```
 
@@ -47,7 +49,7 @@ If the device is not detected:
 ## Usage in Code
 
 ```python
-from bok_survey import find_emlid_device
+from bok_drone_onboard_system.survey import find_emlid_device
 from serial import Serial
 
 # Find the EMLID device
