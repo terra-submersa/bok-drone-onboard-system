@@ -13,6 +13,9 @@ version=0.1.10
     # Only upload the latest version
     twine upload $(ls -rt dist/* | grep .tar.gz | sed s/.tar.gz// | tail -1)*
 
+
+### Drone side
 #### Upgrade deployment on Raspbery PI
 
     pip install --upgrade bok-drone-onboard-system
+
