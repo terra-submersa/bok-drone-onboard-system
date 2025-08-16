@@ -6,7 +6,7 @@ from unittest.mock import patch
 from parameterized import parameterized
 
 from bok_drone_onboard_system.survey import SurveyMeasure
-from bok_drone_onboard_system.survey.data import load_data, create_table_if_not_exists
+from bok_drone_onboard_system.survey.data import load_data, create_table_if_not_exists, TABLE_NAME
 from bok_drone_onboard_system.survey.gps import GPSPoint
 
 
@@ -28,14 +28,14 @@ class TestLoadData(unittest.TestCase):
         # Insert sample data
         for timestamp, quat, lat, lon, alt in self.sample_data:
             self.conn.execute(
-                "INSERT INTO bno_data (timestamp, quat_i, quat_j, quat_k, quat_real, gps_lat, gps_lon, gps_alt) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                f"INSERT INTO {TABLE_NAME} (timestamp, quat_i, quat_j, quat_k, quat_real, gps_lat, gps_lon, gps_alt) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
                 (timestamp.isoformat(timespec='milliseconds'), *quat, lat, lon, alt)
             )
         self.conn.commit()
         
         # Sample with None values for testing only_defined parameter
         self.conn.execute(
-            "INSERT INTO bno_data (timestamp, quat_i, quat_j, quat_k, quat_real, gps_lat, gps_lon, gps_alt) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+            f"INSERT INTO {TABLE_NAME} (timestamp, quat_i, quat_j, quat_k, quat_real, gps_lat, gps_lon, gps_alt) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
             ((self.now + timedelta(minutes=30)).isoformat(timespec='milliseconds'), None, None, None, None, 10.5, 20.5, 100.5)
         )
         self.conn.commit()
