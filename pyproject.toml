@@ -28,6 +28,8 @@ dependencies = [
     "parameterized==0.9.0",
     "scipy==1.16.0",
     "pynmea2==1.19.0",
+    "python-dateutil>=2.8.2",
+    "pyproj==3.7.2",
 ]
 
 [project.urls]
@@ -36,6 +38,7 @@ Homepage = "https://github.com/terra-submersa/bok-drone-onboard-system"
 [project.scripts]
 bno08x-acquire = "bok_drone_onboard_system.bno08x_acquire:main"
 survey-acquire = "bok_drone_onboard_system.survey_acquire:main"
+survey-analyse = "bok_drone_onboard_system.survey_analyse:main"
 
 [tool.setuptools.packages.find]
 where = ["."]

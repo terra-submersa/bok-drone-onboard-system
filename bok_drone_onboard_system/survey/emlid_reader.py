@@ -2,6 +2,7 @@ import logging
 import re
 import sys
 from typing import Callable
+from datetime import datetime
 
 import pynmea2
 from serial.tools import list_ports
@@ -15,11 +16,24 @@ logger = logging.getLogger(__name__)
 def read_from_emlid(connection: Serial, callback: Callable):
     """
     Read NMEA2 data from EMLID device via serial connection and print lat, lon, altitude and precise time.
+    Uses RMC messages to get date information and combines it with GGA messages for complete timestamp.
+    
+    The function processes both GGA and RMC NMEA messages:
+    - GGA messages provide time, latitude, longitude, and altitude
+    - RMC messages provide date information along with time and position
+    
+    When an RMC message is received, its date information is stored and used to create
+    full datetime objects for subsequent GGA messages. If a GGA message is received before
+    any RMC message, it's stored temporarily and processed once date information becomes available.
 
     Args:
         connection: Serial connection to the EMLID device
+        callback: Callable function to process the GPS data
     """
     try:
+        # Store the latest date from RMC messages
+        latest_date = None
+
         while True:
             # Read a line from the serial connection
             line = connection.readline().decode('ascii', errors='replace').strip()
@@ -32,9 +46,17 @@ def read_from_emlid(connection: Serial, callback: Callable):
             try:
                 msg = pynmea2.parse(line)
 
+                # RMC message contains date information
+                if isinstance(msg, pynmea2.RMC):
+                    latest_date = msg.datestamp
+                    
+
                 # GGA message contains latitude, longitude, and altitude
-                if isinstance(msg, pynmea2.GGA):
-                    callback(GPSPoint(msg.timestamp, msg.latitude, msg.longitude, msg.altitude))
+                elif isinstance(msg, pynmea2.GGA):
+                    if latest_date:
+                        # Combine date from RMC with time from GGA
+                        full_datetime = datetime.combine(latest_date, msg.timestamp)
+                        callback(GPSPoint(full_datetime, msg.latitude, msg.longitude, msg.altitude))
 
             except pynmea2.ParseError:
                 # Skip lines that can't be parsed

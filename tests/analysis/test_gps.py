@@ -5,7 +5,7 @@ import unittest
 from parameterized import parameterized
 import pyproj
 from bok_drone_onboard_system.survey.gps import GPSPoint
-from bok_drone_onboard_system.survey.analysis.gps import wgs84_to_utm34n
+from bok_drone_onboard_system.analysis.gps import wgs84_to_utm34n
 
 
 class TestGPSConversion(unittest.TestCase):
