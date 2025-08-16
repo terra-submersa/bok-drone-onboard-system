@@ -8,6 +8,7 @@ from bok_drone_onboard_system.survey.gps import GPSPoint
 
 logger = logging.getLogger(__name__)
 
+TABLE_NAME="survey_records"
 
 def db_conn(sqlite_filename: str) -> Connection:
     logger.info(f"Connecting to DB {sqlite_filename}")
@@ -16,8 +17,8 @@ def db_conn(sqlite_filename: str) -> Connection:
 
 def create_table_if_not_exists(conn: Connection) -> Connection:
     logger.info("Creating table if not exists")
-    stmt = """
-           CREATE TABLE IF NOT EXISTS bno_data
+    stmt = f"""
+           CREATE TABLE IF NOT EXISTS {TABLE_NAME}
            (
                timestamp TEXT PRIMARY KEY,
                quat_i REAL,
@@ -37,7 +38,7 @@ def append_measure(quaternion: tuple, gps_point: GPSPoint, conn: Connection):
     timestamp = None if gps_point.timestamp is None else gps_point.timestamp.isoformat(timespec='milliseconds')
 
     conn.execute(
-        "INSERT INTO bno_data (timestamp, quat_i, quat_j, quat_k, quat_real, gps_lat, gps_lon, gps_alt) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+        f"INSERT INTO {TABLE_NAME} (timestamp, quat_i, quat_j, quat_k, quat_real, gps_lat, gps_lon, gps_alt) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
         (timestamp, *quaternion, gps_point.latitude, gps_point.longitude, gps_point.altitude),
     )
     conn.commit()
@@ -56,7 +57,7 @@ def load_data(
     :param only_defined: if True, only return SurveyMeasure when defined.
     :return: list of SurveyMeasure
     """
-    query = "SELECT timestamp, quat_i, quat_j, quat_k, quat_real, gps_lat, gps_lon, gps_alt FROM bno_data"
+    query = f"SELECT timestamp, quat_i, quat_j, quat_k, quat_real, gps_lat, gps_lon, gps_alt FROM {TABLE_NAME}"
     params = []
     
     # Add timestamp filters if provided

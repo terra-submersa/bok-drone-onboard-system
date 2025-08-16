@@ -15,3 +15,4 @@
   * The GPS position is at end A of the pole
   * The BNO08x quaternion is the measure of the pole inclination (v_nat = Vector(1, 0, 0)), showing the direction between A and B
   * The function must return the position as a tuple (x,y,z)  of the position at the end B of the pole
+* [x] Implement `plot_projected_measures` following docstring

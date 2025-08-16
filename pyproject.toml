@@ -30,6 +30,7 @@ dependencies = [
     "pynmea2==1.19.0",
     "python-dateutil>=2.8.2",
     "pyproj==3.7.2",
+    "matplotlib==3.8.4",
 ]
 
 [project.urls]
