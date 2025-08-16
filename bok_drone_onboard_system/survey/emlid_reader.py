@@ -1,21 +1,15 @@
+import logging
 import re
 import sys
 from typing import Callable
 
 import pynmea2
-from  serial.tools import list_ports
+from serial.tools import list_ports
 from serial import Serial
 
+from bok_drone_onboard_system.survey.gps import GPSPoint
 
-class GPSPoint:
-    def __init__(self, timestamp, latitude, longitude, altitude):
-        self.timestamp = timestamp
-        self.latitude = latitude
-        self.longitude = longitude
-        self.altitude = altitude
-
-    def __repr__(self):
-        return f"timestamp={self.timestamp}, latitude={self.latitude}, longitude={self.longitude}, altitude={self.altitude}"
+logger = logging.getLogger(__name__)
 
 
 def read_from_emlid(connection: Serial, callback: Callable):
@@ -98,7 +92,9 @@ def find_emlid_device():
 
     # If we found any potential candidates, return the first one
     if emlid_ports:
+        logger.info(f"Found EMLID device at: {emlid_ports[0]}")
         return emlid_ports[0]
 
     # No EMLID device found
+    logger.info("No EMLID device found. Please check the connection.")
     return None
