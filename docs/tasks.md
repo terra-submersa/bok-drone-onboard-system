@@ -10,6 +10,7 @@
 * [x] BUG: in `read_from_emlid`, we must read the timestamp as being time and date. Not only time. date is exposed in RMC or ZDA messages
 * [ ] Bluetooth detection and robustness
 * [ ] align time synchronization between angle and GPS
+![img.png](img.png)
 * [ ] check that GGA GPS point are FIXed by base
 * [ ] add GPS quality measure (SINGLE, FIX, RTK, None etc.)
 
