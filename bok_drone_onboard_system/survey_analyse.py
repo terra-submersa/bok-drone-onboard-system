@@ -3,7 +3,7 @@ import logging
 from datetime import datetime
 from typing import Tuple
 
-from dateutil import parser
+from matplotlib.collections import LineCollection
 
 from bok_drone_onboard_system.analysis.gps import wgs84_to_utm34n
 from bok_drone_onboard_system.positioner.projector import calculate_pole_end_position
@@ -88,7 +88,10 @@ def plot_projected_measures(projected_measures: list[Tuple[datetime, Tuple[float
     # Plot GPS points (red) and pole end positions (blue)
     ax.scatter(gps_points[:, 0], gps_points[:, 1], color='red', label='GPS Points', s=30)
     ax.scatter(pole_ends[:, 0], pole_ends[:, 1], color='blue', label='Pole End Positions', s=30)
-    
+    segments = np.array([[[p[1][0], p[1][1]], [p[2][0], p[2][1]]] for p in projected_measures])
+    lc = LineCollection(segments, colors='grey', linewidths=1)
+    ax.add_collection(lc)
+
     # Set equal aspect to ensure distances are represented correctly
     ax.set_aspect('equal')
     
@@ -202,6 +205,11 @@ def main():
         help="End timestamp in ISO format (e.g., 2023-01-01T23:59:59)"
     )
     parser.add_argument(
+        "--image",
+        type=str,
+        help="png image file"
+    )
+    parser.add_argument(
         "--log-level",
         type=str,
         default="INFO",
@@ -228,9 +236,12 @@ def main():
     logger.info(f"Loaded {len(measures)} survey measures")
 
     # Format and print TSV output
-    proj_measures = project_measure(measures, pole_length=100)
+    proj_measures = project_measure(measures, pole_length=2.57)
     tsv_output = format_tsv_output(proj_measures)
     print(tsv_output)
+
+    if args.image:
+        plot_projected_measures(proj_measures, args.image)
 
 
 if __name__ == "__main__":

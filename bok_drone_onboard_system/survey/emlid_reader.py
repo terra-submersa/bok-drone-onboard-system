@@ -71,6 +71,7 @@ def read_from_emlid(connection: Serial, callback: Callable):
 
 
 def find_emlid_device():
+    return "/dev/tty.tsreachrover"
     """
     Find the EMLID device USB file descriptor on both macOS and Raspberry Pi.
 

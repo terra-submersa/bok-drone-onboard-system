@@ -60,6 +60,9 @@ def main():
             logger.error(f"Error: {e}")
             time.sleep(3)
             bno = None
+            if emlid_device and emlid_ser.is_open:
+                emlid_ser.close()
+                emlid_device = None
 
 
 if __name__ == "__main__":
