@@ -13,6 +13,8 @@
 ![img.png](img.png)
 * [ ] check that GGA GPS point are FIXed by base
 * [ ] add GPS quality measure (SINGLE, FIX, RTK, None etc.)
+* [x] implement the emlid_reader.parse_llh function
+* [x] implement the GPSPoint.distance_to function, using pyproj
 
 ## Analysis
 
@@ -26,3 +28,5 @@
 
 ## Raspberry
 * go for RPi pico model
+* more robust connector (check SPH)
+* Add sime signal to say that the system is recording correctly

@@ -4,8 +4,8 @@ from datetime import datetime, date, time
 
 import pynmea2
 
-from bok_drone_onboard_system.survey.emlid_reader import read_from_emlid
-from bok_drone_onboard_system.survey.gps import GPSPoint
+from bok_drone_onboard_system.survey.emlid_reader import read_from_emlid, parse_llh
+from bok_drone_onboard_system.survey.gps import GPSPoint, EmlidEntry, SolutionQuality
 
 
 class TestEmlidReader(unittest.TestCase):
@@ -107,6 +107,43 @@ class TestEmlidReader(unittest.TestCase):
         self.assertEqual(callback_results[0].latitude, 48.1173)
         self.assertEqual(callback_results[0].longitude, 11.516666666666667)
         self.assertEqual(callback_results[0].altitude, 545.4)
+
+    def test_parse_llh(self):
+        """Test that parse_llh correctly parses LLH format data."""
+        # Test with the example from the docstring
+        llh_line = "2025/08/24 10:59:13.800   43.737672206    5.462569945   307.6388   2  11   0.0680   0.1100   0.2400   0.0000   0.0000   0.0000   1.80    0.0"
+        
+        # Parse the line
+        result = parse_llh(llh_line)
+        
+        # Verify the result is an EmlidEntry
+        self.assertIsInstance(result, EmlidEntry)
+        
+        # Verify GPSPoint
+        self.assertIsInstance(result.gps_point, GPSPoint)
+        self.assertEqual(result.gps_point.timestamp, datetime(2025, 8, 24, 10, 59, 13, 800000))
+        self.assertEqual(result.gps_point.latitude, 43.737672206)
+        self.assertEqual(result.gps_point.longitude, 5.462569945)
+        self.assertEqual(result.gps_point.altitude, 307.6388)
+        
+        # Verify solution status
+        self.assertEqual(result.solution_status, SolutionQuality.FLOAT)
+        
+        # Verify standard deviations
+        self.assertEqual(result.std_dev, (0.0680, 0.1100, 0.2400))
+        
+    def test_parse_llh_with_different_solution_statuses(self):
+        """Test parse_llh with different solution status values."""
+        # Test with Single solution status
+        llh_line_fix = "2025/08/24 10:59:13.800   43.737672206    5.462569945   307.6388   1  11   0.0680   0.1100   0.2400   0.0000   0.0000   0.0000   1.80    0.0"
+        result_fix = parse_llh(llh_line_fix)
+        self.assertEqual(result_fix.solution_status, SolutionQuality.FIX)
+        
+        # Test with RTK Fixed solution status
+        llh_line_rtk_dgps = "2025/08/24 10:59:13.800   43.737672206    5.462569945   307.6388   4  11   0.0680   0.1100   0.2400   0.0000   0.0000   0.0000   1.80    0.0"
+        result_rtk_dgps = parse_llh(llh_line_rtk_dgps)
+        self.assertEqual(result_rtk_dgps.solution_status, SolutionQuality.DGPS)
+        
 
 
 if __name__ == '__main__':
