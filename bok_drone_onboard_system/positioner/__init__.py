@@ -29,19 +29,22 @@ class Vector:
             return Vector(self.x / other, self.y / other, self.z / other)
         return NotImplemented
 
+    def __mul__(self, v: int | float):
+        if isinstance(v, (int, float)):
+            return Vector(self.x * v, self.y * v, self.z * v)
+        return NotImplemented
 
     def dot(self, other):
-        return self.x*other.x + self.y*other.y + self.z*other.z
+        return self.x * other.x + self.y * other.y + self.z * other.z
 
     def norm(self):
-        return math.sqrt(self.x**2 + self.y**2 + self.z**2)
+        return math.sqrt(self.x ** 2 + self.y ** 2 + self.z ** 2)
 
     def colinearity(self, other) -> float:
         """
         0 if colinear, 1 perpendicular"""
         cos_theta = self.dot(other) / (self.norm() * other.norm())
         return 1 - abs(cos_theta)
-
 
     @property
     def np(self):
@@ -70,6 +73,14 @@ class Position:
 
     def plus(self, v: Vector):
         return Position(self.x + v.x, self.y + v.y, self.z + v.z)
+
+    def __add__(self, other):
+        if isinstance(other, Vector):
+            return self.plus(other)
+        return NotImplemented
+
+    def distance_to(self, other: "Position"):
+        return math.sqrt((self.x - other.x) ** 2 + (self.y - other.y) ** 2 + (self.z - other.z) ** 2)
 
     @property
     def np(self):
